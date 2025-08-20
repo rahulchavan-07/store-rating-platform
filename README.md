@@ -75,6 +75,8 @@ store-rating-platform/
 ├── screenshots/    # Project demo screenshots
 └── README.md
 
+---
+
 ## 🗄️ Database Schema
 
 ### users
