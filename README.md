@@ -74,3 +74,38 @@ store-rating-platform/
 ├── server/         # Express backend
 ├── screenshots/    # Project demo screenshots
 └── README.md
+
+## 🗄️ Database Schema
+
+### users
+| Column   | Type                        | Constraints                          |
+|----------|----------------------------|--------------------------------------|
+| id       | INT                        | AUTO_INCREMENT, PRIMARY KEY           |
+| name     | VARCHAR(60)                | NOT NULL                              |
+| email    | VARCHAR(100)               | UNIQUE, NOT NULL                      |
+| password | VARCHAR(255)               | NOT NULL                              |
+| address  | VARCHAR(400)               |                                       |
+| role     | ENUM('USER','ADMIN','OWNER') | DEFAULT 'USER'                        |
+
+---
+
+### stores
+| Column    | Type         | Constraints                     |
+|-----------|-------------|---------------------------------|
+| id        | INT         | AUTO_INCREMENT, PRIMARY KEY      |
+| name      | VARCHAR(100)| NOT NULL                         |
+| location  | VARCHAR(255)|                                 |
+| owner_id  | INT         | FOREIGN KEY → users(id)          |
+
+---
+
+### ratings
+| Column    | Type      | Constraints                                             |
+|-----------|-----------|--------------------------------------------------------|
+| id        | INT       | AUTO_INCREMENT, PRIMARY KEY                             |
+| user_id   | INT       | NOT NULL, FOREIGN KEY → users(id)                      |
+| store_id  | INT       | NOT NULL, FOREIGN KEY → stores(id)                     |
+| value     | INT       | CHECK(value >= 1 AND value <= 5)                      |
+| created_at| TIMESTAMP | DEFAULT CURRENT_TIMESTAMP                                |
+| UNIQUE    |           | user_id + store_id (a user can rate a store only once) |
+
